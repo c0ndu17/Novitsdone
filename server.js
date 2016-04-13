@@ -10,10 +10,9 @@ var xmlserializer             = require('xmlserializer');
 /*
  *  Environment variables
  */
-var adminPort = process.env.ADMIN_PORT || 3002;
-var apiPort = process.env.API_PORT || 3001;
 var mainPort = process.env.PORT || 3000;
 var domain = process.env.DOMAIN || 'peaceful-crag-64014.herokuapp.com';
+console.log(process.env.PORT);
 
 
 var localData = {};
@@ -233,12 +232,15 @@ function drawChart(data, res){
   })
 }
 
+console.log(domain);
 /*
  * Starts a http and listens for requests on mainPort
  */
 var mainServer = http.createServer(function(req, res) {
 
   var hostname = req.headers.host.split(":")[0];
+  console.log('Request Received')
+  console.log(domain);
   // Routing logic
   switch(hostname){
     case 'api.' + domain:
