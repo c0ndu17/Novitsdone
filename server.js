@@ -11,8 +11,8 @@ var xmlserializer             = require('xmlserializer');
  *  Environment variables
  */
 var mainPort = process.env.PORT || 3000;
-var domain = process.env.DOMAIN || 'peaceful-crag-64014.herokuapp.com';
-console.log(process.env.PORT);
+var domain = process.env.DOMAIN || 'mainstream.ninja';
+console.info(mainPort);
 
 
 var localData = {};
@@ -240,7 +240,7 @@ var mainServer = http.createServer(function(req, res) {
 
   var hostname = req.headers.host.split(":")[0];
   console.log('Request Received')
-  console.log(domain);
+  console.log(req.headers.host);
   // Routing logic
   switch(hostname){
     case 'api.' + domain:
