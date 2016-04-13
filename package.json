@@ -1,5 +1,5 @@
 {
-  "name": "noviknowwhatwearedoing",
+  "name": "no\/iknowwhatwearedoing",
   "version": "0.0.0",
   "scripts": {
     "build": "webpack --config ./webpack.config.js --progress --colors",
