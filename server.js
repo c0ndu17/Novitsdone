@@ -13,7 +13,7 @@ var xmlserializer             = require('xmlserializer');
 var adminPort = process.env.ADMIN_PORT || 3002;
 var apiPort = process.env.API_PORT || 3001;
 var mainPort = process.env.PORT || 3000;
-var domain = process.env.DOMAIN || 'peaceful-crag-64014.herokuapp.com';
+var domain = process.env.DOMAIN || 'localhost';
 
 
 var localData = {};
@@ -138,7 +138,7 @@ function callAdmin(req, res) {
         console.log(delayData);
         drawChart(delayData, res);
         return; 
-      
+      }
     }
   }
   res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
