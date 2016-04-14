@@ -56,6 +56,7 @@ function delayedResponse(req, res) {
       if(total > 0) {
         var poll = setInterval(function(){
           res.write('');
+          console.log('writing');
           count++;
           if(count == total) {
             setTimeout(function() {
