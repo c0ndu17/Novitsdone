@@ -179,11 +179,15 @@ function drawChart(data, res){
           .x(function(d) { return x(d.x); })
           .y(function(d) { return y(d.y); });
 
+      var xBreak = new Date();
+      xBreak.setDate(xBreak.getDate() - 7);
       x.domain(
         [
-          d3.min(data, function(d) {
-            return d.x; 
-          }),
+// Just for you. :-)
+//           d3.min(data, function(d) {
+//             return d.x; 
+//           }),
+          xBreak,
           Date.now()
         ]
       );
