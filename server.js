@@ -13,7 +13,7 @@ var xmlserializer             = require('xmlserializer');
  *  Environment variables
  */
 var mainPort = process.env.PORT || 3000;
-var domain = process.env.DOMAIN || 'localhost';
+var domain = process.env.DOMAIN || 'mainstream.ninja';
 
 
 var localData = {};
