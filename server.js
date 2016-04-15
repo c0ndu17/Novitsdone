@@ -2,6 +2,8 @@
  *  Libraries
  */
 var http                      = require('http');
+var fs                        = require('fs');
+var process                   = require('process');
 var jsdom                     = require('jsdom');
 var d3                        = require('d3');
 var _                         = require('lodash');
@@ -11,11 +13,62 @@ var xmlserializer             = require('xmlserializer');
  *  Environment variables
  */
 var mainPort = process.env.PORT || 3000;
-var domain = process.env.DOMAIN || 'mainstream.ninja';
-console.info(mainPort);
+var domain = process.env.DOMAIN || 'localhost';
 
 
 var localData = {};
+var fileDescriptor;
+    
+
+(function() {
+  fs.readFile("delayData.tsv", "utf8", function(err, data){
+    if(!data) {
+      /**
+       * Generate localData
+       */
+      var numToGenerate = parseInt(Math.random() * 300) + 100;
+      var start = new Date(2016, 3, 7);
+      var end = new Date(Date.now());
+      localData[3] = [];
+      for(var i = 0; i < numToGenerate; i++) {
+        localData[3].push(new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) - 0);
+      }
+      return;
+    }
+    /*
+     *  Parse file to localData
+     */
+    var fileData = d3.tsv.parseRows(data);
+    for(var i = 0; i < fileData.length; i++) {
+      var timeout = Number(fileData[i][0]);
+      localData[timeout] = [];
+      for(var j = 1; j < fileData[i].length; j++) {
+        localData[timeout].push(fileData[i][j]);
+      }
+    }
+  });
+})()
+process.on('SIGTERM', function(){
+  backupToFile();
+  process.exit();
+})
+process.on('SIGINT', function(){
+  backupToFile();
+  process.exit();
+})
+
+
+function backupToFile(){
+  var fileString = ''; 
+  for(var timeout in localData) {
+    var timeoutArrayToString = _.reduce(localData[timeout], function(memo, time){
+      return memo + '\t' + time;
+    }, timeout)
+    fileString += timeoutArrayToString +'\n';
+  }
+  fs.writeFileSync('delayData.tsv', fileString, "utf8");
+}
+
 
 function responseHandler(res, status, body){
   if(status) {
@@ -27,12 +80,18 @@ function responseHandler(res, status, body){
   res.end();
 }
 
+
+function addToTsv(delay, time){
+
+}
+
 function addLocalData(timeout){
   if(!localData[timeout]){
     localData[timeout] = [];
   }
-  localData[timeout].push(Date.now());
-  console.log(localData);
+  var now = Date.now();
+  localData[timeout].push(now);
+  addToTsv(timeout, now);
 }
 
 
